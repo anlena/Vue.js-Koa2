@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import { List } from 'vant'
+Vue.use(List)
+
 import { Button, Row, Col ,Search , Swipe , SwipeItem , Lazyload  } from 'vant'
 Vue.use(Button).use(Row).use(Col).use(Search).use(Swipe).use(SwipeItem).use(Lazyload)
 

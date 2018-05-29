@@ -46,12 +46,27 @@
           </swiper>
       </div>
     </div>
+
+    <floorComponent :floorData="floor1" :floorTitle="floorName.floor1"></floorComponent>
+    <floorComponent :floorData="floor2" :floorTitle="floorName.floor2"></floorComponent>
+    <floorComponent :floorData="floor3" :floorTitle="floorName.floor3"></floorComponent>
+    <!-- 热卖商品 -->
+    <van-row gutter="20">
+        <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
+            <goods-info :goodsImage="item.image" :goodsName="item.name" :goodsPrice="item.price"></goods-info>
+        </van-col>
+    </van-row>
+ 
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import 'swiper/dist/css/swiper.css'
+import floorComponent from '../component/floorComponent'
+import goodsInfo from '../component/goodsInfoComponent'
+
+import {toMoney} from '@/filter/moneyFilter.js'
  
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
@@ -59,12 +74,17 @@ export default {
   data(){
     return{
       locationIcon: require('../../assets/images/location.png'),
-      bannerPicArray:[],
-      category:[],
-      adBanner:'',
-      recommendGoods:[],
-      swiperOption: {
-      }       
+      bannerPicArray:[],  //轮播图片
+      category:[],        //商品类别标签栏
+      adBanner:'',        //广告图片
+      recommendGoods:[],  //推荐商品
+      floor1:[],          //楼层1的数据
+      floor2:[],          //楼层1的数据
+      floor3:[],          //楼层1的数据
+      floorName:{},       //楼层名称
+      swiperOption:{
+
+      }   
     }
   },
   created(){
@@ -79,14 +99,24 @@ export default {
         this.adBanner = response.data.data.advertesPicture //获得广告图片
         this.bannerPicArray = response.data.data.slides   //轮播图片
         this.recommendGoods = response.data.data.recommend  //推荐商品
+
+        this.floor1 = response.data.data.floor1              //楼层1数据
+        this.floor2 = response.data.data.floor2              //楼层2数据
+        this.floor3 = response.data.data.floor3              //楼层3数据
       }
     }).catch((error) => {
 
     })
   },
+  filters:{
+    moneyFilter(money){
+      return toMoney(money);
+    }
+  },
   components:{
     swiper,
-    swiperSlide
+    swiperSlide,
+    floorComponent
   }
 }
 </script>
